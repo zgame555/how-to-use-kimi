@@ -8,7 +8,7 @@
 
 โครงเรื่องพัฒนาต่อจาก [zgame555/how-to-use-gpt](https://github.com/zgame555/how-to-use-gpt) แต่ปรับแนวคิด ตัวอย่าง และคำแนะนำให้ตรงกับผลิตภัณฑ์ของ Kimi โดยไม่สมมติว่าโมเดลหรือฟีเจอร์ของสองค่ายเทียบกันแบบหนึ่งต่อหนึ่ง
 
-ข้อมูลผลิตภัณฑ์ โมเดล และราคาอัปเดตล่าสุด: **2 สิงหาคม 2026** — ชื่อรุ่น availability, credit, ราคา และ UI เปลี่ยนได้เสมอ โปรดตรวจ [Kimi Help Center](https://www.kimi.com/help), [Kimi API docs](https://platform.kimi.ai/docs/overview), [Kimi Code docs](https://www.kimi.com/code/docs/en/) และ [Pricing](https://platform.kimi.ai/docs/pricing/chat) ก่อนนำตัวเลขไปใช้ตัดสินใจทางธุรกิจ
+ข้อมูลผลิตภัณฑ์ โมเดล และราคาอัปเดตล่าสุด: **2 สิงหาคม 2026** · เพิ่ม Git workflow: **8 สิงหาคม 2026** — ชื่อรุ่น availability, credit, ราคา และ UI เปลี่ยนได้เสมอ โปรดตรวจ [Kimi Help Center](https://www.kimi.com/help), [Kimi API docs](https://platform.kimi.ai/docs/overview), [Kimi Code docs](https://www.kimi.com/code/docs/en/) และ [Pricing](https://platform.kimi.ai/docs/pricing/chat) ก่อนนำตัวเลขไปใช้ตัดสินใจทางธุรกิจ
 
 ---
 
@@ -18,6 +18,7 @@
 2. [รู้จัก K2.6, K3 และ K3 Swarm](#2-รู้จัก-k26-k3-และ-k3-swarm)
 3. [เลือกภายใน 30 วินาที](#3-เลือกภายใน-30-วินาที)
 4. [เริ่มใช้และสลับโหมดอย่างไร](#4-เริ่มใช้และสลับโหมดอย่างไร)
+   - [Kimi Code กับ Git](#46-kimi-code-กับ-git)
 5. [คันโยกที่สำคัญกว่าการเปลี่ยนโมเดล](#5-คันโยกที่สำคัญกว่าการเปลี่ยนโมเดล)
 6. [สูตรทำงานที่ใช้ได้กับทุกโปรเจกต์](#6-สูตรทำงานที่ใช้ได้กับทุกโปรเจกต์)
 7. [เลือกตามสายงาน](#7-เลือกตามสายงาน)
@@ -354,6 +355,236 @@ print(completion.choices[0].message.content)
 | Kimi Code — Anthropic protocol | `https://api.kimi.com/coding/` | ตามคู่มือ client | membership/Kimi Code credits |
 
 key และ balance ของแต่ละระบบไม่ควรถือว่าใช้แทนกันได้ หากเจอ `401`, `404` หรือ `model_not_found` ให้ตรวจ key → region → base URL → model ID → balance ตามลำดับ
+
+---
+
+### 4.6 Kimi Code กับ Git
+
+[Git Field Guide](https://github.com/zgame555/how-to-use-git) แบ่ง Git ออกเป็นพื้นที่ที่ต้องเข้าใจให้ชัด:
+
+```text
+Working tree       = ไฟล์ที่กำลังแก้ในโฟลเดอร์โปรเจกต์
+Staging area       = การเปลี่ยนแปลงที่เลือกไว้เพื่อ commit
+Local repository    = ประวัติ commit ในเครื่อง
+Remote repository   = ประวัติที่แชร์บน GitHub/GitLab/Bitbucket
+```
+
+Git ทำงานได้โดยไม่ต้องมี GitHub ส่วน GitHub เป็น remote และพื้นที่ทำงานร่วมกัน อย่าให้ Kimi สรุปว่า “push แล้ว” เท่ากับ “โค้ดถูก merge เข้า `main`” เพราะยังอาจอยู่ใน branch หรือรอ Pull Request review อยู่
+
+#### ตั้งค่าเครื่องครั้งเดียว
+
+ตรวจว่าเครื่องมี Git และตั้งชื่อผู้เขียน commit ให้ถูกต้องก่อนให้ Kimi สร้างประวัติ:
+
+```bash
+git --version
+git config --global user.name "ชื่อของคุณ"
+git config --global user.email "you@example.com"
+git config --global --list
+```
+
+อย่าใส่ token, password หรือ private key ลงใน `user.name`/`user.email` และอย่าให้ Kimi เดา identity แทนผู้ใช้ หากองค์กรใช้ signing, credential helper หรือ `.mailmap` ให้ทำตาม policy ขององค์กร
+
+#### สร้าง repo ใหม่หรือ clone repo เดิม
+
+ถ้าเริ่มโปรเจกต์ใหม่:
+
+```bash
+mkdir my-project
+cd my-project
+git init
+git add README.md
+git commit -m "chore: initialize repository"
+git branch -M main
+git remote add origin https://github.com/ORG/REPO.git
+git push -u origin main
+```
+
+ถ้ามี repo อยู่แล้ว ให้ clone เพื่อเก็บ remote และ branch tracking ให้พร้อม:
+
+```bash
+git clone https://github.com/ORG/REPO.git
+cd REPO
+```
+
+เพิ่ม `.gitignore` ก่อน `git add` ไฟล์จริง เช่น:
+
+```text
+node_modules/
+.env
+dist/
+.DS_Store
+```
+
+คำสั่ง `git init`, `git remote add` และ `git push` เปลี่ยนสถานะหรือเผยแพร่ข้อมูล จึงให้ Kimi แสดงคำสั่งและรออนุมัติทุกครั้งเมื่อเป็น repo จริง
+
+#### `fetch`, `pull` และ `push` ไม่เหมือนกัน
+
+| คำสั่ง | ทำอะไร | ใช้เมื่อ |
+|---|---|---|
+| `git fetch origin` | ดึงข้อมูล remote มาเก็บไว้ แต่ยังไม่รวมเข้ากับ branch | อยากดูความเปลี่ยนแปลงก่อน |
+| `git pull --ff-only origin main` | fetch แล้วรวมแบบ fast-forward เท่านั้น | อัปเดต branch ที่ไม่มี local divergence |
+| `git push origin feature/name` | ส่ง commit ของ branch ขึ้น remote | พร้อมให้ทีมเห็นหรือเปิด PR |
+
+ถ้าไม่รู้ว่าการ pull จะรวมอะไร ให้ใช้ `git fetch` ก่อน แล้วตรวจ `git log`, `git diff` หรือให้ Kimi สรุปความต่างก่อนตัดสินใจ
+
+#### วงจรประจำวันที่ปลอดภัย
+
+ให้ Kimi Code ทำตามวงจรนี้ทีละช่วง และให้รายงานสถานะก่อน/หลังทุกช่วง:
+
+```bash
+# 1) ดูสถานะและ diff ก่อนแตะไฟล์
+git status --short
+git diff
+# ถ้ามีการแก้เดิมที่ไม่เกี่ยวข้อง ให้หยุดและบันทึก/แยกงานก่อน
+
+# 2) ทำงานใน branch ของตัวเอง
+git switch main
+git pull --ff-only origin main
+git switch -c feature/ชื่อสั้นๆ
+
+# 3) หลังแก้ ให้ตรวจ diff และทดสอบ
+git diff --check
+# รัน test/lint/typecheck ตามคำสั่งของโปรเจกต์
+# เช่น: npm test หรือ pytest
+
+# 4) เลือกเฉพาะไฟล์/ส่วนที่ตั้งใจจะ commit
+git add -p
+git diff --cached
+
+# 5) commit หนึ่งเหตุผลต่อหนึ่ง commit
+git commit -m "feat: add checkout validation"
+git log --oneline -3
+
+# 6) push branch และเปิด Pull Request
+git push -u origin feature/ชื่อสั้นๆ
+```
+
+คำสั่ง `git add -p` ช่วยแยก hunk ที่ต้องการ commit ออกจาก debug code หรือการแก้ที่ไม่เกี่ยวข้อง หากยังไม่แน่ใจอย่าใช้ `git add .` แบบอัตโนมัติ ให้ให้ Kimi แสดงรายชื่อไฟล์และเหตุผลก่อน
+
+#### Prompt สำหรับ Kimi Code ที่ควบคุมขอบเขตได้
+
+```text
+ทำงานใน branch ปัจจุบันเท่านั้น
+
+1. อ่าน git status, diff และ AGENTS.md ก่อน
+2. สรุปไฟล์ที่จะเปลี่ยนและเหตุผลก่อนแก้
+3. แก้เฉพาะปัญหา checkout validation ที่ระบุ
+4. ห้ามแก้ไฟล์ generated, .env หรือไฟล์นอกขอบเขต
+5. รัน test/lint/typecheck ที่เกี่ยวข้อง
+6. แสดง git diff --check และสรุปไฟล์ที่แก้
+7. อย่า commit, push, merge หรือ deploy จนกว่าฉันจะสั่งแยก
+```
+
+ถ้าผู้ใช้อนุญาตให้ commit ให้ Kimi แสดง staged diff และ commit message ก่อน commit เสมอ การอนุญาตให้ “แก้ code” ไม่ได้แปลว่าอนุญาตให้ “ส่ง code ขึ้น remote”
+
+#### หลักการตั้ง commit
+
+หนึ่ง commit ควรมีหนึ่งเหตุผลที่อธิบายได้ เช่น `เพิ่ม validation ฟอร์มสมัครสมาชิก` ดีกว่า `แก้หลายอย่าง` เพราะช่วย review, bisect และ revert ได้ง่าย
+
+รูปแบบที่อ่านง่าย:
+
+```text
+feat: เพิ่มความสามารถใหม่
+fix: แก้บั๊ก
+test: เพิ่มหรือปรับปรุง test
+refactor: ปรับโครงโดยไม่เปลี่ยน behavior
+docs: แก้เอกสาร
+chore: งานดูแลระบบ/เครื่องมือ
+```
+
+ก่อน commit ให้ Kimi ตอบได้ว่า:
+
+- เปลี่ยนอะไร
+- เปลี่ยนเพราะอะไร
+- ตรวจด้วยคำสั่งใด
+- มีความเสี่ยงหรือไฟล์ที่ยังไม่ได้ตรวจอะไรบ้าง
+
+#### Branch และ Pull Request
+
+อย่าทำงาน feature บน `main` โดยตรง:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git switch -c fix/navbar-overflow
+
+# ทำงานและตรวจใน branch นี้
+git push -u origin fix/navbar-overflow
+```
+
+ชื่อ branch ควรบอกประเภทและเรื่อง เช่น `feature/payment`, `fix/navbar-overflow`, `docs/kimi-git-workflow`
+
+Pull Request ที่พร้อม review ควรมี:
+
+- สรุปสิ่งที่เปลี่ยนและเหตุผล
+- ขอบเขตสิ่งที่ไม่เปลี่ยน
+- คำสั่ง test/lint/build ที่รันและผลลัพธ์
+- screenshot หรือ sample output เมื่อเปลี่ยน UI/เอกสาร
+- migration, rollout, compatibility และ rollback note เมื่อเกี่ยวข้อง
+- known limitation และคำถามที่อยากให้ reviewer ช่วยตัดสิน
+
+ให้ Kimi ช่วยร่าง PR และตรวจ diff ได้ แต่ให้ owner ของ repo เป็นผู้ตัดสินใจ merge โดยเฉพาะการเปลี่ยน auth, payment, data migration และ production config
+
+#### ทำงานหลาย Agent กับ Git
+
+แบ่งงานเมื่อไฟล์ไม่ชนกันและผลลัพธ์รวมได้ชัด:
+
+```text
+Agent A  อ่านและสรุป API contract แบบ read-only
+Agent B  เพิ่ม unit test ใน test/ เท่านั้น
+Agent C  ตรวจ security finding แบบ read-only
+Agent หลัก รวมผล ตรวจ diff และรัน test ทั้งชุด
+```
+
+แนวทางที่ปลอดภัยกว่าเมื่อแก้ไฟล์จริงพร้อมกัน:
+
+- ให้แต่ละ Agent ใช้ branch หรือ worktree แยก
+- ระบุ owner ของไฟล์และผู้รวมผลให้ชัด
+- ห้ามให้หลาย Agent แก้ไฟล์เดียวกันโดยไม่ประสาน
+- ก่อน merge ให้ตรวจ conflict, test และ behavior ไม่ใช่รวมเพราะ patch apply ได้
+- อย่าให้ Agent หนึ่ง commit การเปลี่ยนแปลงของ Agent อื่นโดยไม่อ่าน staged diff
+
+#### แก้พลาดอย่างปลอดภัย
+
+ก่อนใช้คำสั่งย้อนกลับ ให้ถามสองข้อ: **commit ถูก push แล้วหรือยัง** และ **ต้องการเก็บการแก้ไขไว้ไหม**
+
+| สถานการณ์ | คำสั่ง | ผลลัพธ์/ข้อควรระวัง |
+|---|---|---|
+| แก้ไฟล์แล้วอยากทิ้งการแก้ | `git restore path/to/file` | คืนไฟล์ตาม commit ล่าสุด; การแก้ที่ยังไม่บันทึกหาย |
+| เผลอ stage ไฟล์ | `git restore --staged path/to/file` | เอาออกจาก staging แต่เก็บการแก้ในไฟล์ |
+| แก้ message ของ commit ล่าสุด | `git commit --amend` | ใช้กับ commit ที่ยังไม่ push เท่านั้น |
+| commit ไปแล้วและต้องหักล้างแบบปลอดภัย | `git revert <commit>` | สร้าง commit ใหม่ เหมาะกับประวัติที่แชร์แล้ว |
+| ย้อน local commit แต่เก็บไฟล์ไว้ | `git reset --soft HEAD~1` | ใช้ก่อน push และตรวจสถานะต่อ |
+| พักงานที่ยังไม่เสร็จชั่วคราว | `git stash push -u -m "ชื่อชั่วคราว"` | เก็บ untracked ด้วย; ก่อน pop ตรวจ branch ปลายทาง |
+| กู้ตำแหน่ง commit ที่เคยมี | `git reflog` + `git switch -c recover/name <hash>` | ค้น hash ตรวจด้วย `git show` ก่อนสร้าง recovery branch |
+
+`git reset --hard` เป็นคำสั่งทำลายการแก้ไขที่ยังไม่ commit อย่าให้ Kimi เรียกใช้เอง หากผู้ใช้ยังไม่ได้ยืนยันไฟล์และผลที่จะหายอย่างชัดเจน
+
+#### Merge conflict
+
+เมื่อ conflict เกิดขึ้น ให้ Kimi ทำตามลำดับนี้:
+
+1. อ่าน `git status` เพื่อดูไฟล์ที่ conflict
+2. เปิด marker `<<<<<<<`, `=======`, `>>>>>>>` และอ่านทั้งสองฝั่งรวมถึง context รอบข้าง
+3. สรุปว่าทั้งสองฝั่งตั้งใจแก้อะไร ก่อนเลือกหรือเขียนคำตอบรวม
+4. ลบ marker ให้หมด แล้วรัน test ที่เกี่ยวข้อง
+5. ตรวจ `git diff --check`, `git diff` และ `git status`
+6. `git add` เฉพาะไฟล์ที่แก้ถูกต้อง แล้ว commit ตามคำสั่ง
+7. หากยังไม่เข้าใจ ให้หยุด หรือใช้ `git merge --abort` เพื่อกลับก่อนเริ่ม merge
+
+ห้ามแก้ conflict ด้วย “เลือก ours/theirs ทั้งหมด” โดยไม่ตรวจ business behavior เพราะ conflict ที่ syntax ถูกอาจทำให้ logic ฝั่งหนึ่งหายไป
+
+#### Git safety checklist สำหรับ Kimi Code
+
+- [ ] ตรวจ `git status` ก่อนแก้และก่อนส่งมอบ
+- [ ] อยู่ใน branch ที่ถูกต้อง ไม่ใช่ `main` โดยไม่ตั้งใจ
+- [ ] ไม่มี secret, `.env`, build output หรือไฟล์ส่วนตัวใน diff
+- [ ] staged diff ตรงกับงานที่ขอ ไม่ใช่ทุกไฟล์ที่เปลี่ยนในเครื่อง
+- [ ] `git diff --check` ผ่าน
+- [ ] test/lint/typecheck หรือ preview ผ่านตามขอบเขต
+- [ ] commit แยกตามเหตุผลและ message อธิบายได้
+- [ ] push/PR/merge มีการอนุมัติแยกจากการแก้ไฟล์
+- [ ] destructive command มี backup หรือ recovery path
 
 ---
 
@@ -1288,6 +1519,12 @@ response = client.chat.completions.create(
 6. อย่าแทนชื่อรุ่นแบบ search-and-replace; ทบทวนบทบาทและ workflow ใหม่
 7. ลบข้อจำกัดเก่าที่เอกสารทางการไม่รองรับ
 8. ระบุวันที่อัปเดตทุกครั้ง
+
+### แหล่งแรงบันดาลใจด้าน Git workflow
+
+- [zgame555/how-to-use-git — Git Field Guide](https://github.com/zgame555/how-to-use-git)
+- [Git documentation](https://git-scm.com/docs)
+- [GitHub Docs — Get started](https://docs.github.com/en/get-started)
 
 ---
 

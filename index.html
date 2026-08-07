@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="th" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kimi Field Notes — คู่มือเลือกโมเดลและใช้ Kimi กับงานจริงอย่างมีระบบ"
+    />
+    <meta name="theme-color" content="#f4f0e7" />
+    <title>Kimi Field Notes — เลือกให้ถูก ลงมือให้ดี</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1c1a'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='36' fill='%23d8f255'%3EK%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top" aria-label="Kimi Field Notes หน้าหลัก">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span class="brand-name">KIMI <small>FIELD NOTES / 02</small></span>
+        </a>
+
+        <nav class="main-nav" aria-label="เมนูหลัก">
+          <a href="#pick" data-nav-link>เลือก</a>
+          <a href="#workflow" data-nav-link>workflow</a>
+          <a href="#git" data-nav-link>Git × Kimi</a>
+          <a href="#guardrails" data-nav-link>guardrails</a>
+        </nav>
+
+        <div class="header-tools">
+          <label class="search-box" for="site-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="site-search" type="search" placeholder="ค้นหาในคู่มือ" autocomplete="off" />
+          </label>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="สลับโหมดสี">
+            <span data-theme-icon aria-hidden="true">◐</span>
+          </button>
+        </div>
+      </div>
+      <div class="progress-track" aria-hidden="true"><span data-progress></span></div>
+    </header>
+
+    <main id="top">
+      <section class="hero shell" aria-labelledby="hero-title">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow"><span class="eyebrow-dot"></span> FIELD GUIDE / KIMI × REAL WORK</p>
+          <h1 id="hero-title">เลือกให้ถูก.<br /><em>ลงมือให้ดี.</em></h1>
+          <p class="hero-lede">
+            คู่มือภาคสนามสำหรับเลือก K2.6, K3, Swarm, Code, Work และ API ให้ตรงกับความเสี่ยงของงาน
+            แล้วตรวจผลด้วยหลักฐานจริง
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#pick">เลือก Kimi <span aria-hidden="true">↘</span></a>
+            <a class="button button-quiet" href="README.md">อ่านฉบับเต็ม <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero-meta">
+            <span><strong>STYLE</strong> MIKI / EDITORIAL TECH</span>
+            <span class="meta-rule" aria-hidden="true"></span>
+            <span><strong>UPDATED</strong> 08.08.2026</span>
+          </div>
+        </div>
+
+        <div class="hero-art" data-reveal data-delay="1" aria-label="แผนภาพเลือกพื้นผิวของ Kimi">
+          <div class="art-stamp">RISK<br /><b>FIRST</b></div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit-core"><span>K</span><small>kimi</small></div>
+          <div class="orbit-label label-chat"><i></i> CHAT</div>
+          <div class="orbit-label label-code"><i></i> CODE</div>
+          <div class="orbit-label label-api"><i></i> API</div>
+          <div class="art-note">Think<br /><b>in context.</b></div>
+        </div>
+
+        <div class="hero-stats" data-reveal data-delay="2">
+          <div><strong>01</strong><span>เลือกพื้นผิว<br />ให้ตรงงาน</span></div>
+          <div><strong>02</strong><span>ใช้โมเดล<br />เท่าที่ต้องใช้</span></div>
+          <div><strong>03</strong><span>ตรวจผล<br />ก่อนเชื่อ</span></div>
+        </div>
+      </section>
+
+      <section class="intro-band">
+        <div class="shell intro-band-inner">
+          <span class="section-index">00 / PRINCIPLE</span>
+          <p>ความฉลาดที่คุ้มที่สุด คือความฉลาดที่ถูกวางไว้ตรงจุดที่พลาดแล้วเจ็บ</p>
+          <span class="intro-arrow" aria-hidden="true">↓</span>
+        </div>
+      </section>
+
+      <section class="section shell" id="pick" aria-labelledby="pick-title">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="section-index">01 / PICK YOUR SURFACE</span>
+            <h2 id="pick-title">เริ่มจาก <em>งาน</em><br />ไม่ใช่ชื่อโมเดล</h2>
+          </div>
+          <p class="section-summary">ค้นในหน้านี้ได้เลย หรือเลือกจากลักษณะงานด้านล่าง</p>
+        </div>
+
+        <div class="surface-grid" data-search-group>
+          <article class="surface-card card-coral" data-searchable="chat kimi k2.6 สนทนา ถามตอบ ไฟล์">
+            <div class="card-top"><span class="card-number">01</span><span class="card-tag">FAST START</span></div>
+            <h3>Kimi Chat</h3>
+            <p>ถามตอบ สรุป แปล และคิดงานทั่วไปที่ต้องการความเร็ว</p>
+            <div class="card-foot"><code>K2.6</code><span>→</span></div>
+          </article>
+          <article class="surface-card card-ink" data-searchable="agent website slides docs sheets research เอกสาร เว็บไซต์">
+            <div class="card-top"><span class="card-number">02</span><span class="card-tag">DELIVERABLES</span></div>
+            <h3>General Agent</h3>
+            <p>งานหลายขั้นที่ต้องส่งมอบเว็บไซต์ สไลด์ เอกสาร ชีต หรือรายงาน</p>
+            <div class="card-foot"><code>K3 / high</code><span>→</span></div>
+          </article>
+          <article class="surface-card card-acid" data-searchable="swarm batch parallel search documents ขนาน ค้นจำนวนมาก">
+            <div class="card-top"><span class="card-number">03</span><span class="card-tag">SCALE OUT</span></div>
+            <h3>K3 Swarm</h3>
+            <p>แบ่งงานอิสระจำนวนมากให้ sub-agents ทำพร้อมกันแล้วรวมผล</p>
+            <div class="card-foot"><code>parallel</code><span>→</span></div>
+          </article>
+          <article class="surface-card card-lavender" data-searchable="code cli vscode repository terminal tests git โค้ด">
+            <div class="card-top"><span class="card-number">04</span><span class="card-tag">SHIP CODE</span></div>
+            <h3>Kimi Code</h3>
+            <p>อ่าน แก้ ทดสอบ และ review repository ใน terminal หรือ VS Code</p>
+            <div class="card-foot"><code>K3 / k3-256k</code><span>→</span></div>
+          </article>
+          <article class="surface-card card-blue" data-searchable="work local browser files schedule automation ไฟล์เครื่อง">
+            <div class="card-top"><span class="card-number">05</span><span class="card-tag">LOCAL OPS</span></div>
+            <h3>Kimi Work</h3>
+            <p>ทำงานกับไฟล์ local, browser session, Python และ scheduled task</p>
+            <div class="card-foot"><code>local agent</code><span>→</span></div>
+          </article>
+          <article class="surface-card card-paper" data-searchable="api backend product routing json tool calling production ระบบ">
+            <div class="card-top"><span class="card-number">06</span><span class="card-tag">BUILD SYSTEMS</span></div>
+            <h3>Kimi API</h3>
+            <p>ฝังโมเดลใน product, backend และ automation พร้อม routing เอง</p>
+            <div class="card-foot"><code>kimi-k3 / k2.6</code><span>→</span></div>
+          </article>
+        </div>
+        <p class="search-empty" data-search-empty hidden>ไม่พบหัวข้อที่ตรงกัน ลองคำว่า “Git”, “Swarm” หรือ “API”</p>
+      </section>
+
+      <section class="section section-dark" id="workflow" aria-labelledby="workflow-title">
+        <div class="shell">
+          <div class="section-heading section-heading-light" data-reveal>
+            <div>
+              <span class="section-index">02 / THE LOOP</span>
+              <h2 id="workflow-title">คิดเป็นลำดับ.<br /><em>ตรวจเป็นระบบ.</em></h2>
+            </div>
+            <p class="section-summary">โมเดลไม่ใช่คำตอบสุดท้าย เครื่องมือและการตรวจคือส่วนหนึ่งของคำตอบ</p>
+          </div>
+
+          <div class="workflow-grid" data-reveal>
+            <div class="workflow-line" aria-hidden="true"></div>
+            <article class="workflow-step"><span>01</span><div><h3>Define</h3><p>บอก outcome, constraints, risk และเกณฑ์เสร็จ</p></div></article>
+            <article class="workflow-step"><span>02</span><div><h3>Explore</h3><p>อ่าน source, repo หรือ data จริงก่อนเสนอทางแก้</p></div></article>
+            <article class="workflow-step"><span>03</span><div><h3>Plan</h3><p>เลือกพื้นผิว แบ่งงาน และกำหนด approval boundary</p></div></article>
+            <article class="workflow-step"><span>04</span><div><h3>Execute</h3><p>ใช้ Kimi และ tools ให้ตรงงาน ทำ diff เล็กที่ตรวจได้</p></div></article>
+            <article class="workflow-step"><span>05</span><div><h3>Verify</h3><p>ตรวจด้วย source, test, formula, schema หรือ preview</p></div></article>
+            <article class="workflow-step"><span>06</span><div><h3>Review</h3><p>สรุปสิ่งที่เปลี่ยน ความเสี่ยง และสิ่งที่ยังไม่พิสูจน์</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell" id="git" aria-labelledby="git-title">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="section-index">03 / KIMI CODE × GIT</span>
+            <h2 id="git-title">แก้ได้.<br /><em>ส่งอย่างมีสติ.</em></h2>
+          </div>
+          <p class="section-summary">Git คือประวัติของโค้ด Kimi คือผู้ช่วยอ่าน diff, เขียน code และตรวจ test — ไม่ใช่เจ้าของการ merge</p>
+        </div>
+
+        <div class="git-layout">
+          <div class="terminal-card" data-reveal>
+            <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>~/projects/your-repo</span><button type="button" class="copy-button" data-copy-target="git-loop">copy</button></div>
+            <pre id="git-loop"><code><span class="prompt">$</span> git status --short
+<span class="prompt">$</span> git diff
+<span class="prompt">$</span> git switch -c <span class="cmd-accent">feature/checkout</span>
+<span class="prompt">$</span> git diff --check
+<span class="prompt">$</span> git add -p
+<span class="prompt">$</span> git diff --cached
+<span class="prompt">$</span> git commit -m <span class="cmd-green">"feat: add checkout validation"</span>
+<span class="prompt">$</span> git push -u origin <span class="cmd-accent">feature/checkout</span></code></pre>
+            <p class="terminal-caption">อย่าให้ “แก้ไฟล์ได้” ถูกตีความเป็น “มีสิทธิ์ push ได้”</p>
+          </div>
+
+          <div class="git-notes" data-reveal data-delay="1">
+            <div class="note-row"><span class="note-index">A</span><div><strong>Working tree → staging</strong><p>ให้ Kimi สรุปไฟล์และ staged diff ก่อน commit</p></div></div>
+            <div class="note-row"><span class="note-index">B</span><div><strong>Branch → Pull Request</strong><p>ทำงานบน branch แยก ให้ owner ตัดสินใจ merge</p></div></div>
+            <div class="note-row"><span class="note-index">C</span><div><strong>Conflict → evidence</strong><p>อ่านสองฝั่ง รันทดสอบ และอย่าเลือก ours/theirs แบบเดา</p></div></div>
+            <div class="note-row"><span class="note-index">D</span><div><strong>Recovery → calm</strong><p>แยก “push แล้วหรือยัง” กับ “อยากเก็บงานไหม” ก่อน reset</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-split" id="guardrails" aria-labelledby="guardrails-title">
+        <div class="shell split-grid">
+          <div class="split-intro" data-reveal>
+            <span class="section-index">04 / GUARDRAILS</span>
+            <h2 id="guardrails-title">ฉลาดแค่ไหน<br /><em>ก็ต้องมีราวกันตก</em></h2>
+            <p>งานเงิน สิทธิ์ ข้อมูลจริง และ production ต้องมี validation กับ human approval แยกจากคำตอบของโมเดล</p>
+            <a class="text-link" href="README.md#14-กฎสำหรับงานเสี่ยงสูง">ดู safety rules ทั้งหมด ↗</a>
+          </div>
+          <div class="guardrail-grid" data-reveal data-delay="1">
+            <article class="guardrail-card"><span>01</span><h3>Least privilege</h3><p>ให้สิทธิ์เท่าที่งานต้องใช้ แยก read, propose และ execute</p></article>
+            <article class="guardrail-card"><span>02</span><h3>Deterministic checks</h3><p>ใช้ test, schema, formula, compiler และ source เป็นผู้ตัดสิน</p></article>
+            <article class="guardrail-card"><span>03</span><h3>Human approval</h3><p>ถามก่อน destructive, external, costly หรือ scope-expanding action</p></article>
+            <article class="guardrail-card"><span>04</span><h3>Recovery path</h3><p>มี audit log, idempotency, rollback และ kill switch ก่อนปล่อย automation</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell cheat-section" aria-labelledby="cheat-title">
+        <div class="section-heading" data-reveal>
+          <div>
+            <span class="section-index">05 / KEEP NEARBY</span>
+            <h2 id="cheat-title">Cheat sheet<br /><em>ที่พกไปทำงานได้</em></h2>
+          </div>
+          <a class="button button-outline" href="README.md#16-cheat-sheet">คู่มือเต็ม ↗</a>
+        </div>
+        <div class="cheat-grid" data-reveal>
+          <button class="cheat-item" type="button" data-copy="K2.6 = งานชัด เร็ว ประหยัด\nK3 high = หลายขั้น ใช้ tools\nK3 max = กำกวม critical\nK3 Swarm = หลาย workstreams อิสระ">
+            <span class="cheat-kicker">MODEL</span><code>K2.6 / K3 / SWARM</code><small>กดเพื่อ copy heuristic</small>
+          </button>
+          <button class="cheat-item" type="button" data-copy="git status --short\ngit diff\ngit diff --check\ngit add -p\ngit diff --cached">
+            <span class="cheat-kicker">GIT</span><code>STATUS → DIFF → STAGE</code><small>กดเพื่อ copy daily loop</small>
+          </button>
+          <button class="cheat-item" type="button" data-copy="Define → Explore → Plan → Execute → Verify → Review">
+            <span class="cheat-kicker">WORKFLOW</span><code>DEFINE → VERIFY</code><small>กดเพื่อ copy workflow</small>
+          </button>
+          <button class="cheat-item" type="button" data-copy="อย่าให้ Kimi commit, push, merge หรือ deploy จนกว่าจะอนุมัติแยก">
+            <span class="cheat-kicker">BOUNDARY</span><code>PROPOSE → APPROVE</code><small>กดเพื่อ copy boundary</small>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div><span class="brand-name">KIMI <small>FIELD NOTES / 02</small></span><p>เลือกจากความเสี่ยง ตรวจจากหลักฐาน</p></div>
+        <div class="footer-links"><a href="README.md">README ฉบับเต็ม</a><a href="https://www.kimi.com/help" rel="noreferrer">Kimi Help Center ↗</a><a href="https://github.com/zgame555/how-to-use-git" rel="noreferrer">Git Field Guide ↗</a></div>
+        <span class="footer-mark" aria-hidden="true">✳</span>
+      </div>
+    </footer>
+
+    <div class="toast" role="status" aria-live="polite" data-toast>คัดลอกแล้ว</div>
+    <script src="script.js"></script>
+  </body>
+</html>
